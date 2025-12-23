@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button"
 import { GithubIcon, MailIcon, MapPinIcon } from "lucide-react"
 
 export function HeroSection() {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? ""
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
@@ -82,7 +84,7 @@ export function HeroSection() {
               <div className="absolute inset-0 bg-primary/20 rounded-2xl blur-3xl group-hover:bg-primary/30 transition-colors" />
               <div className="relative glass-strong p-2 rounded-2xl">
                 <img
-                  src="/professional-headshot-formal-neutral-background.jpg"
+                  src={`${basePath}/professional-headshot-formal-neutral-background.jpg`}
                   alt="Nabil Kowsar Orbe"
                   className="relative rounded-xl shadow-2xl w-full max-w-md aspect-square object-cover"
                 />
