@@ -7,6 +7,7 @@ import { SkillsSection } from "@/components/skills-section"
 import { ExperienceSection } from "@/components/experience-section"
 import { ProjectsSection } from "@/components/projects-section"
 import { EducationSection } from "@/components/education-section"
+import { CertificationsSection } from "@/components/certifications-section"
 import { ContactSection } from "@/components/contact-section"
 import { Navigation } from "@/components/navigation"
 
@@ -51,6 +52,7 @@ export default function PortfolioPage() {
           <SkillsSection />
           <ExperienceSection />
           <ProjectsSection />
+          <CertificationsSection />
           <EducationSection />
           <ContactSection />
         </main>
