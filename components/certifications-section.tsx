@@ -4,7 +4,7 @@ import { useMemo, useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { ExternalLinkIcon, FileTextIcon } from "lucide-react"
 
 type Certification = {
@@ -164,23 +164,59 @@ export function CertificationsSection() {
 
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogContent className="sm:max-w-5xl h-[85vh] p-0 overflow-hidden">
-            <DialogHeader className="px-6 pt-6">
-              <DialogTitle className="text-xl">
-                {active
-                  ? [active.title, active.issuer].filter(Boolean).join(" — ")
-                  : "Certificate"}
-              </DialogTitle>
-            </DialogHeader>
+            {active ? (
+              <div className="h-full flex flex-col">
+                <div className="px-6 pt-6 pb-4 min-h-0">
+                  <div className="rounded-md border border-border overflow-hidden h-[45vh] md:h-[50vh]">
+                    <iframe
+                      src={activePdfUrl}
+                      title={`${active.title} PDF`}
+                      className="w-full h-full"
+                    />
+                  </div>
+                </div>
 
-            <div className="px-6 pb-6 flex-1 min-h-0">
-              {active ? (
-                <iframe
-                  src={activePdfUrl}
-                  title={`${active.title} PDF`}
-                  className="w-full h-full rounded-md border border-border"
-                />
-              ) : null}
-            </div>
+                <div className="px-6 pb-6 flex-1 min-h-0 overflow-auto">
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <h3 className="text-2xl font-semibold text-foreground">{active.title}</h3>
+                      {([active.issuer, active.year].filter(Boolean).join(" • ") || "") && (
+                        <p className="text-sm text-muted-foreground">
+                          {[active.issuer, active.year].filter(Boolean).join(" • ")}
+                        </p>
+                      )}
+                    </div>
+
+                    <p className="text-muted-foreground leading-relaxed">{active.description}</p>
+
+                    {active.highlights?.length ? (
+                      <div className="flex flex-wrap gap-2 pt-1">
+                        {active.highlights.map((item) => (
+                          <Badge
+                            key={item}
+                            variant="secondary"
+                            className="text-xs bg-primary/10 text-primary border border-primary/20"
+                          >
+                            {item}
+                          </Badge>
+                        ))}
+                      </div>
+                    ) : null}
+
+                    <Button
+                      size="lg"
+                      className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                      asChild
+                    >
+                      <a href={activePdfUrl} target="_blank" rel="noopener noreferrer">
+                        View Certificate
+                        <ExternalLinkIcon className="size-4 ml-2" />
+                      </a>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </DialogContent>
         </Dialog>
       </div>
