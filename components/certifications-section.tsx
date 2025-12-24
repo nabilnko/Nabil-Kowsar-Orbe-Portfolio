@@ -88,6 +88,7 @@ export function CertificationsSection() {
   }
 
   const activePdfUrl = active ? encodeURI(withBasePath(active.pdfPath)) : ""
+  const activeImageUrl = active?.thumbnailPath ? encodeURI(withBasePath(active.thumbnailPath)) : ""
 
   return (
     <section id="certifications" className="py-24 px-4">
@@ -168,11 +169,20 @@ export function CertificationsSection() {
               <div className="h-full flex flex-col">
                 <div className="px-6 pt-6 pb-4 min-h-0">
                   <div className="rounded-md border border-border overflow-hidden h-[45vh] md:h-[50vh]">
-                    <iframe
-                      src={activePdfUrl}
-                      title={`${active.title} PDF`}
-                      className="w-full h-full"
-                    />
+                    {activeImageUrl ? (
+                      <img
+                        src={activeImageUrl}
+                        alt={active.title}
+                        className="w-full h-full object-contain bg-background"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-primary/10 flex items-center justify-center">
+                        <div className="flex items-center gap-2 text-primary">
+                          <FileTextIcon className="size-5" />
+                          <span className="text-sm font-medium">Certificate Preview</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 
