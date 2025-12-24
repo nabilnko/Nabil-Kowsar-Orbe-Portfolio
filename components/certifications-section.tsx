@@ -9,11 +9,11 @@ import { ExternalLinkIcon, FileTextIcon } from "lucide-react"
 
 type Certification = {
   title: string
-  issuer: string
-  year: string
+  issuer?: string
+  year?: string
   description: string
   pdfPath: string
-  thumbnailPath: string
+  thumbnailPath?: string
   highlights?: string[]
 }
 
@@ -30,31 +30,46 @@ export function CertificationsSection() {
   const certifications: Certification[] = useMemo(
     () => [
       {
-        title: "Certificate Title",
-        issuer: "Issuing Organization",
-        year: "2025",
-        description: "Short description of what you learned or achieved in this certificate.",
+        title: "Job Ready: Employability Skills",
+        issuer: "Wadhwani Foundation",
+        year: "2024",
+        description:
+          "Comprehensive training on employability skills, covering workplace communication, problem-solving, and professional etiquette.",
+        pdfPath: "/certificates/Wadhwani Foundation Certificate - 692eb77e9c72cbcb57a2ab10.pdf",
         thumbnailPath: "/placeholder.jpg",
-        pdfPath: "/certificates/placeholder.pdf",
-        highlights: ["Skill One", "Skill Two", "Skill Three"],
+        highlights: ["Communication", "Problem Solving", "Teamwork"],
       },
       {
-        title: "Certificate Title",
-        issuer: "Issuing Organization",
-        year: "2025",
-        description: "Short description of what you learned or achieved in this certificate.",
+        title: "Certificate",
+        issuer: "",
+        year: "",
+        description: "Certificate document.",
+        pdfPath: "/certificates/Certificate.pdf",
         thumbnailPath: "/placeholder.jpg",
-        pdfPath: "/certificates/placeholder.pdf",
-        highlights: ["Skill One", "Skill Two", "Skill Three"],
       },
       {
-        title: "Certificate Title",
-        issuer: "Issuing Organization",
-        year: "2025",
-        description: "Short description of what you learned or achieved in this certificate.",
+        title: "Certificate (1)",
+        issuer: "",
+        year: "",
+        description: "Certificate document.",
+        pdfPath: "/certificates/Certificate (1).pdf",
         thumbnailPath: "/placeholder.jpg",
-        pdfPath: "/certificates/placeholder.pdf",
-        highlights: ["Skill One", "Skill Two", "Skill Three"],
+      },
+      {
+        title: "Certificate (2)",
+        issuer: "",
+        year: "",
+        description: "Certificate document.",
+        pdfPath: "/certificates/Certificate (2).pdf",
+        thumbnailPath: "/placeholder.jpg",
+      },
+      {
+        title: "Certificate (3)",
+        issuer: "",
+        year: "",
+        description: "Certificate document.",
+        pdfPath: "/certificates/Certificate (3).pdf",
+        thumbnailPath: "/placeholder.jpg",
       },
     ],
     [],
@@ -68,7 +83,7 @@ export function CertificationsSection() {
     setOpen(true)
   }
 
-  const activePdfUrl = active ? withBasePath(active.pdfPath) : ""
+  const activePdfUrl = active ? encodeURI(withBasePath(active.pdfPath)) : ""
 
   return (
     <section id="certifications" className="py-24 px-4">
@@ -87,20 +102,29 @@ export function CertificationsSection() {
               className="glass hover:glass-strong transition-all duration-300 hover:scale-[1.02] border-border overflow-hidden"
             >
               <div className="relative">
-                <img
-                  src={withBasePath(cert.thumbnailPath)}
-                  alt={cert.title}
-                  className="w-full aspect-[16/9] object-cover"
-                />
+                {cert.thumbnailPath ? (
+                  <img
+                    src={encodeURI(withBasePath(cert.thumbnailPath))}
+                    alt={cert.title}
+                    className="w-full aspect-[16/9] object-cover"
+                  />
+                ) : (
+                  <div className="w-full aspect-[16/9] bg-primary/10 flex items-center justify-center">
+                    <div className="flex items-center gap-2 text-primary">
+                      <FileTextIcon className="size-5" />
+                      <span className="text-sm font-medium">PDF Certificate</span>
+                    </div>
+                  </div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
               </div>
 
               <CardContent className="p-6 space-y-4">
                 <div className="space-y-2">
                   <h3 className="text-xl font-semibold text-foreground">{cert.title}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {cert.issuer}  {cert.year}
-                  </p>
+                  {([cert.issuer, cert.year].filter(Boolean).join(" • ") || "") && (
+                    <p className="text-sm text-muted-foreground">{[cert.issuer, cert.year].filter(Boolean).join(" • ")}</p>
+                  )}
                 </div>
 
                 <p className="text-sm text-muted-foreground leading-relaxed">{cert.description}</p>
@@ -138,7 +162,9 @@ export function CertificationsSection() {
           <DialogContent className="sm:max-w-5xl h-[85vh] p-0 overflow-hidden">
             <DialogHeader className="px-6 pt-6">
               <DialogTitle className="text-xl">
-                {active ? `${active.title}  ${active.issuer}` : "Certificate"}
+                {active
+                  ? [active.title, active.issuer].filter(Boolean).join(" — ")
+                  : "Certificate"}
               </DialogTitle>
             </DialogHeader>
 
