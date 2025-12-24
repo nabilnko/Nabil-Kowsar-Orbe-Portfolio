@@ -154,7 +154,7 @@ export function CertificationsSection() {
                     onClick={() => openCertificate(cert)}
                   >
                     <FileTextIcon className="size-4 mr-2" />
-                    View Certificate
+                    View Details
                     <ExternalLinkIcon className="size-4 ml-2" />
                   </Button>
                 </div>
